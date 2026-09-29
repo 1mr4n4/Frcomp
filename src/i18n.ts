@@ -35,43 +35,29 @@ export type UIStrings = typeof UI.fr
 
 export function example(lang: Lang, kw: InputKeyword): string {
   if (lang === 'fr') {
-    return `Algorithme Bonjour
+    return `Algorithme Exemple
 Variables
-  nom : chaine
-  age : entier
+  A : entier
+  B : entier
 debut
-  Afficher("Quel est votre nom ?")
-  ${kw}(nom)
-  Afficher("Quel est votre age ?")
-  ${kw}(age)
-  Si age >= 18 Alors
-    Afficher("Bonjour ", nom, ", vous etes majeur.")
-  Sinon
-    Afficher("Bonjour ", nom, ", vous etes mineur.")
-  FinSi
-  Pour i de 1 a 3
-    Afficher("Compteur : ", i)
-  FinPour
+  A <- 5
+  B <- A * 2
+  Afficher("A = ", A)
+  Afficher("B = ", B)
+  Afficher("Somme : ", A + B)
 Fin
 `
   }
-  return `Algorithm Hello
+  return `Algorithm Example
 Variables
-  name : string
-  age : integer
+  A : integer
+  B : integer
 Start
-  Print("What is your name?")
-  Input(name)
-  Print("How old are you?")
-  Input(age)
-  If age >= 18 Then
-    Print("Hello ", name, ", you are an adult.")
-  Else
-    Print("Hello ", name, ", you are a minor.")
-  EndIf
-  For i from 1 to 3
-    Print("Counter: ", i)
-  EndFor
+  A <- 5
+  B <- A * 2
+  Print("A = ", A)
+  Print("B = ", B)
+  Print("Sum: ", A + B)
 End
 `
 }
