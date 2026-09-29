@@ -2,10 +2,10 @@ import type { InputKeyword, Lang } from './engine/interpreter'
 
 export const UI = {
   fr: {
-    title: 'le coding', subtitle: 'Interpréteur de pseudo-code interactif',
+    title: 'le coding', subtitle: 'french compiler cuz theres none',
     run: 'Exécuter', stop: 'Arrêter', clear: 'Effacer la console',
     settings: 'Paramètres', language: 'Langue', inputSyntax: 'Mot-clé de saisie',
-    inputDisabled: 'Non applicable en anglais', editor: 'Éditeur', console: 'Console',
+    inputDisabled: 'Non applicable en anglais', editor: 'Éditeur ( respct the formats )', console: 'Console',
     editorPlaceholder: 'Écrivez votre algorithme ici…', inputPlaceholder: 'Votre réponse…',
     send: 'Envoyer', done: '— Programme terminé —', stopped: '— Exécution interrompue —',
     idle: 'Cliquez sur « Exécuter » pour lancer le programme.',
@@ -16,7 +16,7 @@ export const UI = {
     enterHint: 'Entrée pour valider',
   },
   en: {
-    title: 'le coding', subtitle: 'Interactive pseudo-code interpreter',
+    title: 'le coding', subtitle: 'french compiler cuz theres none',
     run: 'Run', stop: 'Stop', clear: 'Clear console',
     settings: 'Settings', language: 'Language', inputSyntax: 'Input keyword',
     inputDisabled: 'Not applicable in English', editor: 'Editor', console: 'Console',
