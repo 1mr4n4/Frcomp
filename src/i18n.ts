@@ -38,26 +38,18 @@ export function example(lang: Lang, kw: InputKeyword): string {
     return `Algorithme Exemple
 Variables
   A : entier
-  B : entier
 debut
   A <- 5
-  B <- A * 2
   Afficher("A = ", A)
-  Afficher("B = ", B)
-  Afficher("Somme : ", A + B)
 Fin
 `
   }
   return `Algorithm Example
 Variables
   A : integer
-  B : integer
 Start
   A <- 5
-  B <- A * 2
   Print("A = ", A)
-  Print("B = ", B)
-  Print("Sum: ", A + B)
 End
 `
 }
