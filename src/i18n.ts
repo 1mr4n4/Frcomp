@@ -2,7 +2,7 @@ import type { InputKeyword, Lang } from './engine/interpreter'
 
 export const UI = {
   fr: {
-    title: 'Pseudo-code Studio', subtitle: 'Interpréteur de pseudo-code interactif',
+    title: 'le coding', subtitle: 'Interpréteur de pseudo-code interactif',
     run: 'Exécuter', stop: 'Arrêter', clear: 'Effacer la console',
     settings: 'Paramètres', language: 'Langue', inputSyntax: 'Mot-clé de saisie',
     inputDisabled: 'Non applicable en anglais', editor: 'Éditeur', console: 'Console',
@@ -16,7 +16,7 @@ export const UI = {
     enterHint: 'Entrée pour valider',
   },
   en: {
-    title: 'Pseudo-code Studio', subtitle: 'Interactive pseudo-code interpreter',
+    title: 'le coding', subtitle: 'Interactive pseudo-code interpreter',
     run: 'Run', stop: 'Stop', clear: 'Clear console',
     settings: 'Settings', language: 'Language', inputSyntax: 'Input keyword',
     inputDisabled: 'Not applicable in English', editor: 'Editor', console: 'Console',
