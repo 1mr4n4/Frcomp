@@ -8,12 +8,15 @@ type TypeName = 'int' | 'real' | 'str' | 'bool'
 
 export class PseudoError extends Error {}
 
-const KW = {
+// Case- and accent-insensitive keyword matching: "Début" == "debut", "ÉCRIRE" == "ecrire".
+const fold = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+
+const KW_RAW = {
   fr: {
     algo: ['algorithme'], vars: ['variables'], begin: ['debut'], end: ['fin'],
     print: ['afficher', 'ecrire'], if: ['si'], then: ['alors'], else: ['sinon'], endif: ['finsi'],
     while: ['tantque'], do: ['faire'], endwhile: ['fintantque'],
-    for: ['pour'], from: ['de'], to: ['a', 'à'], endfor: ['finpour'],
+    for: ['pour'], from: ['de'], to: ['a'], endfor: ['finpour'],
     and: ['et'], or: ['ou'], not: ['non'], true: ['vrai'], false: ['faux'], mod: ['mod'], div: ['div'],
   },
   en: {
@@ -24,11 +27,18 @@ const KW = {
     and: ['and'], or: ['or'], not: ['not'], true: ['true'], false: ['false'], mod: ['mod'], div: ['div'],
   },
 }
+
+const foldSet = <T extends Record<string, string[]>>(o: T): T =>
+  Object.fromEntries(Object.entries(o).map(([k, v]) => [k, v.map(fold)])) as T
+
+const KW = { fr: foldSet(KW_RAW.fr), en: foldSet(KW_RAW.en) }
 type KwSet = typeof KW.fr
 
 const TYPES: Record<string, TypeName> = {
-  entier: 'int', reel: 'real', 'réel': 'real', chaine: 'str', 'chaîne': 'str', booleen: 'bool', 'booléen': 'bool',
-  integer: 'int', real: 'real', string: 'str', boolean: 'bool',
+  entier: 'int', entiers: 'int', reel: 'real', reels: 'real',
+  chaine: 'str', chaines: 'str', booleen: 'bool', booleens: 'bool',
+  integer: 'int', integers: 'int', real: 'real', reals: 'real',
+  string: 'str', strings: 'str', boolean: 'bool', booleans: 'bool',
 }
 
 // ---------- Tokenizer ----------
@@ -96,7 +106,7 @@ class Parser {
     return new PseudoError(`${this.lang === 'fr' ? 'Ligne' : 'Line'} ${line}: ${this.lang === 'fr' ? fr : en}`)
   }
   private get cur() { return this.t[this.p] }
-  private is(list: string[]) { return this.cur.t === 'id' && list.includes(this.cur.v.toLowerCase()) }
+  private is(list: string[]) { return this.cur.t === 'id' && list.includes(fold(this.cur.v)) }
   private isOp(v: string) { return this.cur.t === 'op' && this.cur.v === v }
   private eatOp(v: string) { if (this.isOp(v)) { this.p++; return true } return false }
   private eat(list: string[]) { if (this.is(list)) { this.p++; return true } return false }
@@ -132,8 +142,13 @@ class Parser {
         while (this.eatOp(',')) names.push(this.ident())
         this.expectOp(':')
         const tn = this.ident()
-        const type = TYPES[tn]
-        if (!type) throw this.err(this.cur.line, `Type inconnu « ${tn} »`, `Unknown type '${tn}'`)
+        const type = TYPES[fold(tn)]
+        if (!type)
+          throw this.err(
+            this.cur.line,
+            `Type inconnu « ${tn} » (entier, reel, chaine, booleen)`,
+            `Unknown type '${tn}' (integer, real, string, boolean)`,
+          )
         names.forEach(n => decls.set(n, type))
         this.skipNl()
       }
@@ -199,7 +214,8 @@ class Parser {
       return { k: 'for', n, from, to, body, line }
     }
     const n = this.ident()
-    this.expectOp('<-')
+    if (!this.eatOp('<-') && !this.eatOp('='))
+      throw this.err(this.cur.line, `« <- » attendu`, `Expected '<-'`)
     const e = this.expr()
     this.endStmt()
     return { k: 'set', n, e, line }
@@ -372,7 +388,7 @@ class Runner {
 // ---------- Public API ----------
 export async function runProgram(source: string, opts: Options, io: IO, ctl: Control): Promise<void> {
   const { lang } = opts
-  const inputKw = lang === 'fr' ? [opts.inputKeyword.toLowerCase()] : ['input']
+  const inputKw = lang === 'fr' ? [fold(opts.inputKeyword)] : ['input']
   const prog = new Parser(tokenize(source, lang), KW[lang], inputKw, lang).parseProgram()
   await new Runner(prog, io, ctl, lang).run()
 }
