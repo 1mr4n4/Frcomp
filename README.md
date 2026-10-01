@@ -13,7 +13,7 @@ fnrech compiler
 
 ## Build
 
-    npm run build   # type-check + bundle into dist/
+    npm run build 
     npm run preview
 
 
