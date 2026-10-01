@@ -1,0 +1,9 @@
+{
+  "runOnStart": true,
+  "updateInterval": 1000,
+  "logging": true,
+  "silent": true,
+  "commitMessage": "commit",
+  "locale": "en-US",
+  "timeZone": "Europe/Berlin"
+}
